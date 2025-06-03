@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Scheduling Algorithms Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container flex items-center justify-between">
+                <div class="flex items-center gap-16">
+                    <h1 class="text-2xl font-semibold">CPU Scheduler</h1>
+                    <select id="algorithmSelect" class="form-control" style="width: auto; min-width: 250px;">
+                        <option value="FCFS">First Come First Serve (FCFS)</option>
+                        <option value="SJF_NP">Shortest Job First (Non-Preemptive)</option>
+                        <option value="SJF_P">Shortest Remaining Time First (Preemptive)</option>
+                        <option value="RR">Round Robin</option>
+                        <option value="PRIORITY_NP">Priority Scheduling (Non-Preemptive)</option>
+                        <option value="PRIORITY_P">Priority Scheduling (Preemptive)</option>
+                        <option value="MLQ">Multilevel Queue</option>
+                    </select>
+                </div>
+                <button id="themeToggle" class="btn btn--secondary btn--sm">
+                    <span id="themeIcon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="container" style="padding-top: 24px;">
+            <div class="app-grid">
+                <!-- Input Section -->
+                <section class="input-section">
+                    <div class="card">
+                        <div class="card__body">
+                            <h2 class="text-xl mb-16">Process Configuration</h2>
+                            
+                            <!-- Algorithm Configuration -->
+                            <div id="algorithmConfig" class="form-group">
+                                <div id="quantumConfig" class="hidden">
+                                    <label class="form-label" for="timeQuantum">Time Quantum:</label>
+                                    <input type="number" id="timeQuantum" class="form-control" value="3" min="1" max="20">
+                                </div>
+                                <div id="priorityOrderConfig" class="hidden">
+                                    <label class="form-label">Priority Order:</label>
+                                    <select id="priorityOrder" class="form-control">
+                                        <option value="higher">Higher Number = Higher Priority</option>
+                                        <option value="lower">Lower Number = Higher Priority</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Process Input Form -->
+                            <div class="process-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="processName">Process Name:</label>
+                                        <input type="text" id="processName" class="form-control" placeholder="P1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="arrivalTime">Arrival Time:</label>
+                                        <input type="number" id="arrivalTime" class="form-control" min="0" placeholder="0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="burstTime">Burst Time:</label>
+                                        <input type="number" id="burstTime" class="form-control" min="1" placeholder="5">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="priority">Priority:</label>
+                                        <input type="number" id="priority" class="form-control" min="1" placeholder="1">
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button id="addProcess" class="btn btn--primary">Add Process</button>
+                                    <button id="generateRandom" class="btn btn--secondary">Generate Random</button>
+                                    <button id="loadDefault" class="btn btn--secondary">Load Default</button>
+                                    <button id="clearAll" class="btn btn--outline">Clear All</button>
+                                </div>
+                            </div>
+
+                            <!-- Process List -->
+                            <div class="process-list">
+                                <h3 class="text-lg mb-8">Current Processes</h3>
+                                <div id="processList" class="process-items"></div>
+                            </div>
+
+                            <!-- Run Simulation -->
+                            <div class="simulation-controls">
+                                <button id="runSimulation" class="btn btn--primary btn--full-width">Run Simulation</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Visualization Section -->
+                <section class="visualization-section">
+                    <div class="card">
+                        <div class="card__body">
+                            <div class="flex items-center justify-between mb-16">
+                                <h2 class="text-xl">Gantt Chart</h2>
+                                <div class="simulation-playback hidden" id="playbackControls">
+                                    <button id="stepBack" class="btn btn--sm btn--secondary">⏪</button>
+                                    <button id="playPause" class="btn btn--sm btn--primary">▶️</button>
+                                    <button id="stepForward" class="btn btn--sm btn--secondary">⏩</button>
+                                    <span id="currentTime" class="text-sm text-secondary">Time: 0</span>
+                                </div>
+                            </div>
+                            
+                            <div id="ganttChart" class="gantt-container">
+                                <div class="gantt-placeholder">
+                                    <p class="text-secondary">Run a simulation to see the Gantt chart</p>
+                                </div>
+                            </div>
+                            
+                            <div id="processLegend" class="process-legend hidden"></div>
+                        </div>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div class="card">
+                        <div class="card__body">
+                            <div class="flex items-center justify-between mb-16">
+                                <h2 class="text-xl">Results</h2>
+                                <button id="exportCSV" class="btn btn--sm btn--secondary hidden">Export CSV</button>
+                            </div>
+                            
+                            <div id="resultsTable" class="results-container">
+                                <div class="results-placeholder">
+                                    <p class="text-secondary">Results will appear here after running simulation</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
